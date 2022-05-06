@@ -45,8 +45,8 @@ export class obrasController {
     static async delete(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const deleted = await obrasServices.delete(parseInt(id));
+        await obrasServices.delete(parseInt(id));
 
-        return res.status(204).json(deleted);
+        return res.status(204).send();
     }
 }

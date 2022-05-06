@@ -1,47 +1,34 @@
-import { prisma } from '../prisma';
+import { obrasRepositories } from '../repositories/obrasRepositories';
 import { Obra } from '../types';
 
 export class obrasServices {
     static async create({ title, publisher, photo, authors }: Obra): Promise<any> {
-        const id = await prisma.obra.count();
-
-        const createObra = await prisma.obra.create({
-            data: {
-                obraid: id + 1,
-                title,
-                publisher,
-                photo,
-                authors,
-            }
+        const createObra = await obrasRepositories.create({
+            title,
+            publisher,
+            photo,
+            authors,
         });
 
         return createObra;
     }
 
     static async list(): Promise<any> {
-        const obras = await prisma.obra.findMany();
+        const obras = await obrasRepositories.list();
 
         return obras;
     }
 
     static async update({ obraid, title, publisher, photo, authors }: Obra): Promise<any> {
-        const obra = await prisma.obra.findUnique({
-            where: {
-                obraid,
-            }
-        });
+        const obra = await obrasRepositories.findUnique(obraid!);
 
         if (obra) {
-            const updateObra = await prisma.obra.update({
-                where: {
-                    obraid,
-                },
-                data: {
-                    title,
-                    publisher,
-                    photo,
-                    authors
-                }
+            const updateObra = await obrasRepositories.update({
+                obraid, 
+                title,
+                publisher,
+                photo,
+                authors
             });
 
             return updateObra;
@@ -53,11 +40,7 @@ export class obrasServices {
     }
 
     static async delete(obraid: number): Promise<any> {
-        const deleted = await prisma.obra.delete({
-            where: {
-                obraid,
-            }
-        });
+        const deleted = await obrasRepositories.delete(obraid!);
 
         return deleted;
     }

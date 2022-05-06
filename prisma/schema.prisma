@@ -10,13 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Obra {
-    id String @id @default(auto()) @map("_id") @db.ObjectId
-    obraid Int @unique
-    title String
-    publisher String
-    photo String
-    authors String[]
+model Obras {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  obraid      Int          @unique
+  title     String
+  publisher String
+  photo     String
+  authors   String[]
 
-    @@map("obras")
+  @@map("obras")
 }
