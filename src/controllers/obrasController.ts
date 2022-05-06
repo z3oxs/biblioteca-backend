@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { obrasServices } from '../services/obrasServices';
+import { ObrasServices } from '../services/obrasServices';
 import { Obra } from '../types';
 
 export class obrasController {
@@ -11,7 +11,7 @@ export class obrasController {
 
         }
 
-        const created = await obrasServices.create({
+        const created = await ObrasServices.create({
             title,
             publisher,
             photo,
@@ -21,8 +21,8 @@ export class obrasController {
         return res.status(201).json(created);
     }
 
-    static async list(req: Request, res: Response): Promise<Response> {
-        const obras = await obrasServices.list();
+    static async getAll(req: Request, res: Response): Promise<Response> {
+        const obras = await ObrasServices.getAll();
 
         return res.json(obras);
     }
@@ -30,8 +30,8 @@ export class obrasController {
     static async update(req: Request, res: Response): Promise<Response> {
         const { title, publisher, photo, authors }: Obra = req.body;
         const { id } = req.params;
-        
-        const updated = await obrasServices.update({
+
+        const updated = await ObrasServices.update({
             obraid: parseInt(id),
             title,
             publisher,
@@ -45,7 +45,7 @@ export class obrasController {
     static async delete(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        await obrasServices.delete(parseInt(id));
+        await ObrasServices.delete(parseInt(id));
 
         return res.status(204).send();
     }

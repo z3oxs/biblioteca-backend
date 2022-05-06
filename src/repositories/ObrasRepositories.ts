@@ -1,8 +1,9 @@
 import { prisma } from '../database';
+import { IObrasRepositories } from './IObrasRepositories';
 import { Obra } from '../types';
 
-export class obrasRepositories {
-    static async create({ title, publisher, photo, authors }: Obra): Promise<any> {
+export class ObrasRepositories implements IObrasRepositories {
+    async create({ title, publisher, photo, authors }: Obra) {
         const create = await prisma.obras.create({
             data: {
                 obraid: await prisma.obras.count() + 1, 
@@ -16,13 +17,13 @@ export class obrasRepositories {
         return create;
     }
 
-    static async list(): Promise<any> {
+    async getAll() {
         const find = await prisma.obras.findMany();
 
         return find;
     }
 
-    static async findUnique(id: number): Promise<any> {
+    async findUnique(id: number) {
         const find = await prisma.obras.findUnique({
             where: {
                 obraid: id,
@@ -32,7 +33,7 @@ export class obrasRepositories {
         return find;
     }
 
-    static async update({ obraid, title, publisher, photo, authors }: Obra): Promise<any> {
+    async update({ obraid, title, publisher, photo, authors }: Obra) {
         const update = await prisma.obras.update({
             where: {
                 obraid,
@@ -48,7 +49,7 @@ export class obrasRepositories {
         return update;
     }
 
-    static async delete(id: number): Promise<any> {
+    async delete(id: number) {
         const deleted = await prisma.obras.delete({
             where: {
                 obraid: id,

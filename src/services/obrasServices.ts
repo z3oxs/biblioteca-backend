@@ -1,8 +1,10 @@
-import { obrasRepositories } from '../repositories/obrasRepositories';
+import { ObrasRepositories } from '../repositories/ObrasRepositories';
 import { Obra } from '../types';
 
-export class obrasServices {
-    static async create({ title, publisher, photo, authors }: Obra): Promise<any> {
+export class ObrasServices {
+    static async create({ title, publisher, photo, authors }: Obra) {
+        const obrasRepositories = new ObrasRepositories;
+
         const createObra = await obrasRepositories.create({
             title,
             publisher,
@@ -13,13 +15,17 @@ export class obrasServices {
         return createObra;
     }
 
-    static async list(): Promise<any> {
-        const obras = await obrasRepositories.list();
+    static async getAll() {
+        const obrasRepositories = new ObrasRepositories;
+        
+        const obras = await obrasRepositories.getAll();
 
         return obras;
     }
 
-    static async update({ obraid, title, publisher, photo, authors }: Obra): Promise<any> {
+    static async update({ obraid, title, publisher, photo, authors }: Obra) {
+        const obrasRepositories = new ObrasRepositories;
+        
         const obra = await obrasRepositories.findUnique(obraid!);
 
         if (obra) {
@@ -39,7 +45,9 @@ export class obrasServices {
         }
     }
 
-    static async delete(obraid: number): Promise<any> {
+    static async delete(obraid: number) {
+        const obrasRepositories = new ObrasRepositories;
+        
         const deleted = await obrasRepositories.delete(obraid!);
 
         return deleted;
